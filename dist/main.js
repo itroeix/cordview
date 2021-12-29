@@ -8,6 +8,10 @@ let stream = null,
 	downloadButton = null,
 	recordedVideo = null;
 
+var stopbutton = document.querySelector(".stop-recording");
+
+stopbutton.style.display="none";
+
 async function setupStream () {
 	try {
 		stream = await navigator.mediaDevices.getDisplayMedia({
@@ -42,9 +46,14 @@ async function startRecording () {
 		recorder.ondataavailable = handleDataAvailable;
 		recorder.onstop = handleStop;
 		recorder.start(1000);
-	
-		startButton.disabled = true;
-		stopButton.disabled = false;
+		var recordbutton = document.querySelector(".start-recording");
+		var stopbutton = document.querySelector(".stop-recording");
+		var downloadbutton = document.querySelector(".download-video");
+
+		recordbutton.style.display="none";
+		stopbutton.style.display="block";
+		downloadbutton.style.display="none";
+
 	
 		console.log('Recording started');
 	} else {
@@ -54,9 +63,12 @@ async function startRecording () {
 
 function stopRecording () {
 	recorder.stop();
-
-	startButton.disabled = false;
-	stopButton.disabled = true;
+	var recordbutton = document.querySelector(".start-recording");
+	var stopbutton = document.querySelector(".stop-recording");
+	var downloadbutton = document.querySelector(".download-video");
+    recordbutton.style.display="inline-block";
+    stopbutton.style.display="none";
+	downloadbutton.style.display="inline-block";
 }
 
 function handleDataAvailable (e) {
